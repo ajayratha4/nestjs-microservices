@@ -1,11 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from 'src/database/schemas/user.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class AuthService {
-  signUp() {
-    return { id: 123 };
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
+  async signUp(body) {
+    return await new this.userModel(body).save();
   }
-  signIn() {
-    return { id: 55 };
+  async signIn(body) {
+    const user = await this.userModel.findOne({ email: body.email });
+    if (user.password === body.password) return user;
+    throw new NotFoundException('User not found');
   }
 }
