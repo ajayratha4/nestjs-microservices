@@ -8,7 +8,7 @@ import { User } from 'src/database/schemas/user.schema';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async getUser() {
-    return await this.userModel.find().select('-password');
+  async getUser(userId: string) {
+    return await this.userModel.findById(userId).select('-password');
   }
 }

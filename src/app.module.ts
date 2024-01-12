@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseService } from './database/database';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtAuthGuard } from './guard/jwt.guard';
 
 @Module({
   imports: [

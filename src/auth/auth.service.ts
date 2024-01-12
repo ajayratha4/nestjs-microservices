@@ -35,31 +35,11 @@ export class AuthService {
     });
   }
 
-  async verifyAccessToken(token: string): Promise<any> {
-    try {
-      return await this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_ACCESS_TOKEN'),
-      });
-    } catch (error) {
-      throw new UnauthorizedException('Invalid token');
-    }
-  }
-
   async generateRefreshToken(payload: any): Promise<string> {
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_REFRESH_TOKEN'),
       expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXP'),
     });
-  }
-
-  async verifyRefreshToken(token: string): Promise<any> {
-    try {
-      return await this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_TOKEN'),
-      });
-    } catch (error) {
-      throw new UnauthorizedException('Invalid token');
-    }
   }
 
   async signUp(user: SignupDto) {
