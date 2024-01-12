@@ -9,6 +9,6 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUser() {
-    return await this.userModel.find();
+    return await this.userModel.find().select('-password');
   }
 }

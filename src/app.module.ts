@@ -2,19 +2,29 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { DatabaseService } from './database/database';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    // env
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
+
+    // db
     MongooseModule.forRootAsync({
       useClass: DatabaseService,
-      inject: [ConfigService],
     }),
+
+    // JWT
+    JwtModule.register({
+      global: true,
+    }),
+
+    // service
     UserModule,
     AuthModule,
   ],
